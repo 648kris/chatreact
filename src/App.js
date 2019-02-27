@@ -6,6 +6,7 @@ import Landing from './Landing/Landing';
 import Createaccount from './Createaccount/Createaccount';
 import Login from './Login/Login';
 import Messages from './Messages/Messages';
+import TextInput from './Messages/TextInput';
 
 class App extends Component {
   render() {
@@ -25,6 +26,10 @@ class App extends Component {
 
       <BrowserRouter>
         <Route path="/messages" exact="true" component={Messages}/>
+      </BrowserRouter>
+
+      <BrowserRouter>
+        <Route path="/test" exact="true" component={TextInput}/>
       </BrowserRouter>
       </div>
     );

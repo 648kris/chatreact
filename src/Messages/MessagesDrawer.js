@@ -18,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import LetterAvatar from '../Avatars/LetterAvatar';
+import TextInput from './TextInput';
 
 const drawerWidth = 240;
 
@@ -81,8 +82,6 @@ class ResponsiveDrawer extends React.Component {
             </ListItem>
           ))}
         </List>
-        <Divider />
-       
       </div>
     );
 
@@ -120,7 +119,10 @@ class ResponsiveDrawer extends React.Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          
+        <div style={{overflow:"auto"}}>
+        <TextInput/>
+        </div>
+        
         </main>
       </div>
     );
