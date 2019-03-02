@@ -30,6 +30,7 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
+      paddingRight: drawerWidth
     },
   },
   appBar: {
@@ -54,8 +55,8 @@ const styles = theme => ({
   },
 });
 
-let messages = [{name: 'Kristen', timestamp: Number(Date.now()), text: 'message preview', id:'rj39423iuf389234urh'}, 
-  {name: 'Jacob', timestamp: Number(Date.now()), text: 'message preview', id:'93940infiu32932'}, 
+let messages = [{name: 'Kristen', timestamp: Number(Date.now()), text: 'message preview', id:'rj39423iuf389234urh'},
+  {name: 'Jacob', timestamp: Number(Date.now()), text: 'message preview', id:'93940infiu32932'},
   {name: 'Kayla', timestamp: Number(Date.now()), text: 'message preview', id:'32j8394qru329ha93ru'}];
 
 console.log((new Date(messages[0].timestamp)).toDateString())
@@ -88,7 +89,7 @@ class ResponsiveDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-       
+
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
@@ -119,10 +120,8 @@ class ResponsiveDrawer extends React.Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-        <div style={{overflow:"auto"}}>
-        <TextInput/>
-        </div>
-        
+  
+
         </main>
       </div>
     );

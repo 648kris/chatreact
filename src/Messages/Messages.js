@@ -5,6 +5,7 @@ import List from './List';
 import MessagesDrawer from './MessagesDrawer';
 import Conversation from './Conversation';
 import TextInput from './TextInput';
+import Card from './Card';
 
 class Messages extends Component {
   state = {
@@ -14,11 +15,8 @@ class Messages extends Component {
   render(){
     return(
       <div>
-
-          <MessagesDrawer/>
-
-      
-
+        <MessagesDrawer/>
+        <Card/>
       </div>
     )
   }

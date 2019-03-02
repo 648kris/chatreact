@@ -24,8 +24,7 @@ function Chips(props) {
 
   const { classes } = props;
   return (
-    <div style={{height:"90vh", borderRadius:"10px", backgroundColor:"white",
-    width:"700px", margin:"auto", marginTop:"5vh",}} className="boxShadow">
+    <div>
     <div className={classes.root}>
 
       <div style={{width:"100%"}}>
@@ -48,10 +47,6 @@ function Chips(props) {
       />
       </div>
       </div>
-
-      <div style={{position:"fixed", bottom:"5vh"}}>
-    <TextInput />
-    </div>
 
     </div>
     </div>

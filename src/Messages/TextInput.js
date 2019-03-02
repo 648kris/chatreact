@@ -34,8 +34,8 @@ class OutlinedTextFields extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div style={{bottom:"0px", position:"fixed", width: "100%", left:"240px", paddingRight:"20px", backgroundColor:""}}>
-      <div style={{width:"82%"}}>
+      <div style={{bottom:"0px", position:"fixed", width: "800px", left:"240px", backgroundColor:""}}>
+      <div style={{width:"100%"}}>
       <form
         className={classes.container} noValidate autoComplete="off">
         <TextField
