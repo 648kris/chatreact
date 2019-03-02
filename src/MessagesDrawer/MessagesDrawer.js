@@ -18,7 +18,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import LetterAvatar from '../Avatars/LetterAvatar';
-import TextInput from './TextInput';
 
 const drawerWidth = 240;
 
@@ -30,7 +29,6 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-      paddingRight: drawerWidth
     },
   },
   appBar: {
@@ -79,10 +77,13 @@ class ResponsiveDrawer extends React.Component {
           {messages.map((message, index) => (
             <ListItem button key="test">
               <Avatar> <LetterAvatar letter={message.name[0]} color="#e91e63"/> </Avatar>
-              <ListItemText primary={message.name} secondary={ (new Date(messages[0].timestamp)).toDateString() } />
+              <ListItemText primary={message.name} secondary={ (new Date(messages[0].timestamp)).toDateString()
+                 + "      " + (new Date(messages[0].timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(messages[0].timestamp)).toLocaleTimeString().substring(8)} />
             </ListItem>
           ))}
         </List>
+        <Divider />
+
       </div>
     );
 
@@ -120,7 +121,6 @@ class ResponsiveDrawer extends React.Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-  
 
         </main>
       </div>

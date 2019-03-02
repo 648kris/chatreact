@@ -11,8 +11,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    width: "700px",
-    float: "top",
+    width: "800px",
+    top:'-100px',
+    paddingRight:"16px",
+    backgroundColor:"white",
 
   },
   chip: {
@@ -24,11 +26,11 @@ function Chips(props) {
 
   const { classes } = props;
   return (
-    <div>
+    <div style={{backgroundColor:"white"}} className="boxShadow">
     <div className={classes.root}>
 
       <div style={{width:"100%"}}>
-      <div style={{float:"left"}}>
+      <div style={{float:"right"}}>
       <Chip
         avatar={<Avatar>K</Avatar>}
         label="this is a message from another user"
@@ -39,11 +41,11 @@ function Chips(props) {
       </div>
 
       <div style={{width:"100%"}}>
-      <div style={{float:"right"}}>
+      <div style={{float:"left"}}>
       <Chip
         label="this is a message sent by the current user"
         className={classes.chip}
-        color="secondary"
+        color="gray"
       />
       </div>
       </div>

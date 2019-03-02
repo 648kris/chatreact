@@ -2,26 +2,20 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
-import Landing from './Landing/Landing';
-import Createaccount from './Createaccount/Createaccount';
-import Login from './Login/Login';
 import Messages from './Messages/Messages';
-import TextInput from './Messages/TextInput';
+import Signin from './Signin/Signin';
+import Scroll from './Scroll/Scroll';
 
 class App extends Component {
   render() {
     return (
       <div>
       <BrowserRouter>
-        <Route path="/" exact="true" component={Landing}/>
+        <Route path="/" exact="true" component={Messages}/>
       </BrowserRouter>
 
       <BrowserRouter>
-        <Route path="/createaccount" exact="true" component={Createaccount}/>
-      </BrowserRouter>
-
-      <BrowserRouter>
-        <Route path="/login" exact="true" component={Login}/>
+        <Route path="/login" exact="true" component={Signin}/>
       </BrowserRouter>
 
       <BrowserRouter>
@@ -29,7 +23,7 @@ class App extends Component {
       </BrowserRouter>
 
       <BrowserRouter>
-        <Route path="/test" exact="true" component={TextInput}/>
+        <Route path="/test" exact="true" component={Scroll}/>
       </BrowserRouter>
       </div>
     );

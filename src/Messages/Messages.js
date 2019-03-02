@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './messages.css';
 import '../style.css';
-import List from './List';
-import MessagesDrawer from './MessagesDrawer';
+import MessagesDrawer from '../MessagesDrawer/MessagesDrawer';
 import Conversation from './Conversation';
 import TextInput from './TextInput';
-import Card from './Card';
+import Scroll from '../Scroll/Scroll';
 
 class Messages extends Component {
   state = {
@@ -16,7 +15,7 @@ class Messages extends Component {
     return(
       <div>
         <MessagesDrawer/>
-        <Card/>
+        <Scroll/>
       </div>
     )
   }
