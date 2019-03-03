@@ -5,6 +5,7 @@ import './App.css';
 import Messages from './Messages/Messages';
 import Signin from './Signin/Signin';
 import Scroll from './Scroll/Scroll';
+import Chat from './WebSocket/Chat'
 
 class App extends Component {
   render() {
@@ -23,7 +24,7 @@ class App extends Component {
       </BrowserRouter>
 
       <BrowserRouter>
-        <Route path="/test" exact="true" component={Scroll}/>
+        <Route path="/test" exact="true" component={Chat}/>
       </BrowserRouter>
       </div>
     );
