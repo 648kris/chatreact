@@ -1,12 +1,16 @@
-import React, { Component } from 'react'
-import ChatInput from './ChatInput'
-import ChatMessage from './ChatMessage'
+import React, { Component } from 'react';
+import ChatInput from './ChatInput';
+import ChatMessage from './ChatMessage';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
 
 const URL = 'ws://localhost:3030'
 
+
+
 class Chat extends Component {
   state = {
-    name: 'Bob',
+    name: 'Bobby',
     messages: [],
     user: 'km0520'
   }
@@ -14,6 +18,8 @@ class Chat extends Component {
   ws = new WebSocket(URL)
 
   componentDidMount() {
+
+
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log('connected')
@@ -46,29 +52,36 @@ class Chat extends Component {
   }
 
   render() {
+
+    function sendMessage(message){
+      if (message.name==="Bob"){
+        return <div style={{ display:"block", paddingBottom:"10px", paddingTop:"10px"}}>
+          <p style={{backgroundColor:"#e0e0e0", borderRadius:"20px", padding:"6px", display:"inline", left:"0"}}>
+            test
+          </p>
+        </div>
+      }
+      return <div style={{ display:"block", paddingBottom:"10px", textAlign:"right", paddingTop:"10px"}}>
+        <p style={{backgroundColor:"#3949ab", color:"white", borderRadius:"20px", padding:"6px", display:"inline"}}>
+          test
+        </p>
+      </div>
+    }
+
+
     return (
-      <div>
-        <label htmlFor="name">
-          Name:&nbsp;
-          <input
-            type="text"
-            id={'name'}
-            placeholder={'Enter your name...'}
-            value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
-          />
-        </label>
+      <div style={{maxWidth: "800px"}}>
+      {this.state.messages.map((message, index) =>
+        <div>
+        {sendMessage(message)}
+        </div>,
+      )}
+
         <ChatInput
           ws={this.ws}
           onSubmitMessage={messageString => this.submitMessage(messageString)}
         />
-        {this.state.messages.map((message, index) =>
-          <ChatMessage
-            key={index}
-            message={message.message}
-            name={message.name}
-          />,
-        )}
+
       </div>
     )
   }
