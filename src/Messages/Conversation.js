@@ -26,7 +26,7 @@ function Chips(props) {
 
   const { classes } = props;
   return (
-    <div style={{backgroundColor:"white"}} className="boxShadow">
+    <div style={{backgroundColor:"white", height:"100%"}} className="boxShadow">
     <div className={classes.root}>
 
       <div style={{width:"100%"}}>

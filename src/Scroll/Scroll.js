@@ -8,9 +8,7 @@ class Scroll extends Component {
     return(
       <div id="table-wrapper">
         <div id="table-scroll">
-        <Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/>
-        <Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/>
-        <Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/><Conversation/>
+        <Conversation/>
         <TextInput/>
         </div>
       </div>
