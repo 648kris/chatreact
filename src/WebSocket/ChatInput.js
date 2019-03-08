@@ -14,6 +14,7 @@ class ChatInput extends Component {
 
   render() {
     return (
+      <div style={{backgroundColor:"white", width: "800px",marginLeft:"240px", bottom:"0", padding:"5px", position:"fixed"}}>
       <form
         action="."
         onSubmit={e => {
@@ -26,7 +27,7 @@ class ChatInput extends Component {
           required
           fullWidth
           multiline
-          rows="1"
+          rows="2"
           margin="normal"
           variant="outlined"
           type="text"
@@ -36,9 +37,10 @@ class ChatInput extends Component {
         />
         <Button variant="contained" color="primary" type="submit" value={'Send'} >
            Send
-          <Icon style={{paddingLeft:"5px"}}>send</Icon>
+          <Icon style={{marginLeft:"5px"}}>send</Icon>
         </Button>
       </form>
+      </div>
     )
   }
 }

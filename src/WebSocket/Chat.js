@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import ChatInput from './ChatInput';
 import ChatMessage from './ChatMessage';
 import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
+import MessagesDrawer from '../MessagesDrawer/MessagesDrawer';
 
 const URL = 'ws://localhost:3030'
-
-
 
 class Chat extends Component {
   state = {
@@ -18,7 +16,6 @@ class Chat extends Component {
   ws = new WebSocket(URL)
 
   componentDidMount() {
-
 
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
@@ -56,26 +53,30 @@ class Chat extends Component {
     function sendMessage(message){
       if (message.name==="Bob"){
         return <div style={{ display:"block", paddingBottom:"10px", paddingTop:"10px"}}>
-          <p style={{backgroundColor:"#e0e0e0", borderRadius:"20px", padding:"6px", display:"inline", left:"0"}}>
-            test
+          <p style={{backgroundColor:"#e0e0e0", borderRadius:"20px", display:"inline", left:"0", padding:"6px", paddingBottom:"10px"}}>
+            {message.message}
           </p>
         </div>
       }
-      return <div style={{ display:"block", paddingBottom:"10px", textAlign:"right", paddingTop:"10px"}}>
-        <p style={{backgroundColor:"#3949ab", color:"white", borderRadius:"20px", padding:"6px", display:"inline"}}>
-          test
+      return <div style={{ display:"block", textAlign:"right", padding:"10px"}}>
+        <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", padding:"6px", paddingBottom:"10px", display:"inline"}}>
+          {message.message}
         </p>
       </div>
     }
 
 
     return (
-      <div style={{maxWidth: "800px"}}>
+      <div>
+      <MessagesDrawer/>
+
+      <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-114px", padding:"5px", height:"100vh", backgroundColor:"white"}}>
       {this.state.messages.map((message, index) =>
         <div>
         {sendMessage(message)}
         </div>,
       )}
+      </div>
 
         <ChatInput
           ws={this.ws}
@@ -83,6 +84,7 @@ class Chat extends Component {
         />
 
       </div>
+
     )
   }
 }
