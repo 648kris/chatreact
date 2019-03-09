@@ -25,8 +25,13 @@ class OutlinedTextFields extends React.Component {
   };
 
   handleChange = name => event => {
+    if(event.target.keyCode === 13){
+      this.setState({
+        [name]: '</br>',
+      });
+    }
     this.setState({
-      [name]: event.target.value,
+      [name]: "event.target.value",
     });
   };
 

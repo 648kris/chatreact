@@ -8,7 +8,7 @@ const URL = 'ws://localhost:3030'
 
 class Chat extends Component {
   state = {
-    name: 'Bobby',
+    name: 'Bob',
     messages: [],
     user: 'km0520'
   }
@@ -39,7 +39,7 @@ class Chat extends Component {
   }
 
   addMessage = message =>
-    this.setState(state => ({ messages: [message, ...state.messages] }))
+    this.setState(state => ({ messages: [...state.messages, message] }))
 
   submitMessage = messageString => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
@@ -52,14 +52,15 @@ class Chat extends Component {
 
     function sendMessage(message){
       if (message.name==="Bob"){
-        return <div style={{ display:"block", paddingBottom:"10px", paddingTop:"10px"}}>
-          <p style={{backgroundColor:"#e0e0e0", borderRadius:"20px", display:"inline", left:"0", padding:"6px", paddingBottom:"10px"}}>
-            {message.message}
-          </p>
-        </div>
+        return <div style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
+            <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
+              paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
+              {message.message}
+            </p>
+          </div>
       }
-      return <div style={{ display:"block", textAlign:"right", padding:"10px"}}>
-        <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", padding:"6px", paddingBottom:"10px", display:"inline"}}>
+      return <div style={{ display:"block", textAlign:"right", padding:"6px"}}>
+        <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px", display:"inline"}}>
           {message.message}
         </p>
       </div>
@@ -70,7 +71,7 @@ class Chat extends Component {
       <div>
       <MessagesDrawer/>
 
-      <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-114px", padding:"5px", height:"100vh", backgroundColor:"white"}}>
+      <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-112px", padding:"4px", height:"100vh", backgroundColor:"white"}}>
       {this.state.messages.map((message, index) =>
         <div>
         {sendMessage(message)}

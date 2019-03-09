@@ -9,7 +9,11 @@ class ChatInput extends Component {
     onSubmitMessage: PropTypes.func.isRequired,
   }
   state = {
-    message: '',
+    message: ''
+  }
+
+  handleChange = e => {
+    this.setState({ message: e.target.value })
   }
 
   render() {
@@ -33,7 +37,7 @@ class ChatInput extends Component {
           type="text"
           placeholder={'type a message...'}
           value={this.state.message}
-          onChange={e => this.setState({ message: e.target.value })}
+          onChange={e => this.handleChange(e)}
         />
         <Button variant="contained" color="primary" type="submit" value={'Send'} >
            Send
