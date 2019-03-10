@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ChatInput from './ChatInput';
-import ChatMessage from './ChatMessage';
 import Avatar from '@material-ui/core/Avatar';
 import MessagesDrawer from '../MessagesDrawer/MessagesDrawer';
+import { connect } from 'react-redux';
 
 const URL = 'ws://localhost:3030'
 
@@ -52,15 +52,16 @@ class Chat extends Component {
 
     function sendMessage(message){
       if (message.name==="Bob"){
-        return <div style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
+        return <div key={message.index+"a"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
             <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
               paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
               {message.message}
             </p>
           </div>
       }
-      return <div style={{ display:"block", textAlign:"right", padding:"6px"}}>
-        <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px", display:"inline"}}>
+      return <div key={message.index+"b"} style={{ display:"block", textAlign:"right", padding:"6px"}}>
+        <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", paddingLeft:"4px", paddingRight:"4px",
+        paddingBottom:"4px", display:"inline"}}>
           {message.message}
         </p>
       </div>
@@ -90,4 +91,8 @@ class Chat extends Component {
   }
 }
 
-export default Chat
+function mapStateToProps(state) {
+  return { auth: state.auth };
+}
+
+export default connect()(Chat);
