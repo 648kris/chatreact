@@ -72,13 +72,12 @@ class SignIn extends Component{
   }
 
   handleSubmit = () => {
-    console.log("handleSubmit signin")
     console.log(this.state.username)
     console.log(this.state.password)
 
     let username = this.state.username;
     let password = this.state.password;
-    this.props.loginUser(username, password)
+    this.props.createUser(username, password)
   }
 
   handleUsernameChange = (e) => {
@@ -101,7 +100,7 @@ class SignIn extends Component{
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Create New Account
         </Typography>
         <form
           style={styles.form}
@@ -136,7 +135,7 @@ class SignIn extends Component{
             color="primary"
             style={styles.submit}
           >
-            Sign in
+            Create Account
           </Button>
         </form>
       </Paper>

@@ -6,7 +6,8 @@ import * as actions from './actions';
 import './App.css';
 import Messages from './WebSocket/Chat';
 import Signin from './Signin/Signin';
-import Chat from './WebSocket/Chat'
+import Chat from './WebSocket/Chat';
+import CreateUser from './CreateUser/CreateUser';
 
 class App extends Component {
   componentDidMount() {
@@ -24,6 +25,10 @@ class App extends Component {
 
       <BrowserRouter>
         <Route path="/login" exact={true} component={Signin}/>
+      </BrowserRouter>
+
+      <BrowserRouter>
+        <Route path="/createaccount" exact={true} component={CreateUser}/>
       </BrowserRouter>
 
       <BrowserRouter>
