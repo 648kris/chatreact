@@ -71,11 +71,10 @@ class SignIn extends Component{
     password: ""
   }
 
-  testf = () => {
+  handleLogin = () => {
     let username = this.state.username;
     let password = this.state.password;
     this.props.loginUser(username, password)
-    console.log('TEST00000000000000')
   }
 
   handleSubmit = () => {
@@ -85,7 +84,7 @@ class SignIn extends Component{
     let username = this.state.username;
     let password = this.state.password;
     this.props.createUser(username, password)
-    setTimeout(this.testf, 500)
+    setTimeout(this.handleLogin, 500)
   }
 
   handleUsernameChange = (e) => {

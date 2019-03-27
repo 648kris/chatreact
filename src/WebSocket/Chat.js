@@ -3,50 +3,61 @@ import ChatInput from './ChatInput';
 import Avatar from '@material-ui/core/Avatar';
 import MessagesDrawer from '../MessagesDrawer/MessagesDrawer';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
 
-const URL = 'ws://localhost:3030'
+
+//const URL = 'ws://localhost:3030'
 
 class Chat extends Component {
+
   state = {
     name: 'Bob',
     messages: [],
-    user: 'km0520'
+    user: 'km0520',
+    m: [{sender:"Spot", timestamp: Number(Date.now()), messages: {text:"Woof! I'm a doggy!", timestamp:Number(Date.now())} }]
   }
 
-  ws = new WebSocket(URL)
+  //ws = new WebSocket(URL)
 
   componentDidMount() {
 
-    this.ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
+    console.log("CHAT.js didmount")
+    this.props.fetchUser();
+    this.props.fetchMessages();
+
+    if(this.props.messages){
+       this.setState({m: this.props.messages})
+    }
+
+  /*  this.ws.onopen = () => {
       console.log('connected')
     }
 
     this.ws.onmessage = evt => {
-      // on receiving a message, add it to the list of messages
       const message = JSON.parse(evt.data)
-      //console.log("message = "+message)
       this.addMessage(message)
     }
 
     this.ws.onclose = () => {
       console.log('disconnected')
-      // automatically try to reconnect on connection loss
       this.setState({
         ws: new WebSocket(URL),
       })
-    }
+    }*/
   }
 
   addMessage = message =>
     this.setState(state => ({ messages: [...state.messages, message] }))
 
   submitMessage = messageString => {
-    // on submitting the ChatInput form, send the message, add it to the list and reset the input
+    console.log("LOGGING FROM SUBMITMESSAGE")
+    console.log(this.props)
     const message = { name: this.state.name, message: messageString }
-    this.ws.send(JSON.stringify(message))
+    //this.ws.send(JSON.stringify(message))
     this.addMessage(message)
   }
+
+
 
   render() {
 
@@ -92,7 +103,8 @@ class Chat extends Component {
 }
 
 function mapStateToProps(state) {
-  return { auth: state.auth };
+  return { auth: state.auth,
+    messages:state.messages };
 }
 
-export default connect()(Chat);
+export default connect(mapStateToProps, actions)(Chat);

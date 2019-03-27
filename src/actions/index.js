@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {FETCH_USER} from './types';
+import {FETCH_MESSAGES} from './types';
 import {LOGIN_USER} from './types';
 import {CREATE_USER} from './types';
 
@@ -10,8 +11,16 @@ console.log("env = " + process.env);
 export const fetchUser = () => {
   console.log("fetchuser ACTION")
   return function(dispatch){
-    axios.get(apiPath + '/currentuser')
-      .then(res => dispatch({ type: FETCH_USER, payload: res }))
+    axios.get(apiPath + '/currentuser',  {withCredentials: true})
+      .then(res => dispatch({ type: FETCH_USER, payload: res.data }))
+  }
+};
+
+export const fetchMessages = () => {
+  console.log("fetchmessages ACTION")
+  return function(dispatch){
+    axios.get(apiPath + '/messages',  {withCredentials: true})
+      .then(res => dispatch({ type: FETCH_MESSAGES, payload: res.data }))
   }
 };
 
