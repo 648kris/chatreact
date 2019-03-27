@@ -11,11 +11,8 @@ import * as actions from '../actions';
 class Chat extends Component {
 
   state = {
-    name: 'Bob',
-    messages: [],
-    user: 'km0520',
-    m: [{sender:"Spot", timestamp: Number(Date.now()), messages: {text:"Woof! I'm a doggy!", timestamp:Number(Date.now())} }]
-  }
+    messages: [ {username:"Username", timestamp: Number(Date.now()), text: "sendMessages placeholder"} ]
+}
 
   //ws = new WebSocket(URL)
 
@@ -25,7 +22,7 @@ class Chat extends Component {
     this.props.fetchUser();
     this.props.fetchMessages();
 
-    if(this.props.messages){
+    if(this.props.messages.length > 0){
        this.setState({m: this.props.messages})
     }
 
@@ -46,15 +43,27 @@ class Chat extends Component {
     }*/
   }
 
-  addMessage = message =>
-    this.setState(state => ({ messages: [...state.messages, message] }))
 
-  submitMessage = messageString => {
+  //addMessage = message =>
+    //this.setState(state => ({ messages: [...state.messages, message] }))
+
+  newMessage = (messageString, username) => {
     console.log("LOGGING FROM SUBMITMESSAGE")
     console.log(this.props)
-    const message = { name: this.state.name, message: messageString }
+    let messages = this.state.messages;
+    //append new message to messages
+    let newMessagesObj = {username: username, timestamp: Number(Date.now()), text: messageString}
+    let newMessages = messages.push(newMessagesObj)
+    //update state
+    this.setState({messages: newMessages})
     //this.ws.send(JSON.stringify(message))
-    this.addMessage(message)
+    //this.addMessage(message)
+  }
+
+  testFunction = (e) => {
+    console.log("FUCKKKKKKKKKKKKKKK")
+    console.log(e)
+    console.log(this.props.auth.username)
   }
 
 
@@ -78,22 +87,41 @@ class Chat extends Component {
       </div>
     }
 
+    function renderMessage(message){
+        return <div key={message.index+"b"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
+            <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
+              paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
+              {message.text}
+            </p>
+          </div>
+    }
+
+    let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
+      messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
+
+    if(this.props.messages.length > 0){messagesDB = this.props.messages; console.log(messagesDB[0].messages[0].text)};
+
 
     return (
       <div>
       <MessagesDrawer/>
 
       <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-112px", padding:"4px", height:"100vh", backgroundColor:"white"}}>
+      {messagesDB[0].messages.map((message, index) =>
+        <div>
+          {message.text}
+        </div>,
+      )}
       {this.state.messages.map((message, index) =>
         <div>
-        {sendMessage(message)}
+        {message.text}
         </div>,
       )}
       </div>
 
         <ChatInput
           ws={this.ws}
-          onSubmitMessage={messageString => this.submitMessage(messageString)}
+          onSubmitMessage={(e) => this.testFunction(e)}
         />
 
       </div>
