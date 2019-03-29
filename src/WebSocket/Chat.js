@@ -8,20 +8,31 @@ import * as actions from '../actions';
 
 //const URL = 'ws://localhost:3030'
 
+//the websocket was working before but it stopped working
+//i tried going back to a previous version but it still didnt work
+//im wondering if it could have to do with a dependency update
+//i will fix the websocket to get the chat live again
+
 class Chat extends Component {
 
   state = {
-    messages: [ {username:"Username", timestamp: Number(Date.now()), text: "sendMessages placeholder"},
-    {username:"Username2", timestamp: Number(Date.now()), text: "sendMessages placeholder2"} ]
-}
+    conversation: {id: "5c9da033fb6fc0465d4e6e64", otherUser: "Kayla"},
+    messages: [ {sender:"me", recipient: "otherUser", timestamp: Number(Date.now()), text: "sendMessages placeholder"},
+    {sender:"me", recipient: "otherUser", timestamp: Number(Date.now()), text: "sendMessages placeholder2"} ]
+  }
+  //conversation values in the state will come from conversation selected in the sidebar
+  //the hardcoded conversation value in state is a temporary placeholders
 
   //ws = new WebSocket(URL)
 
   componentDidMount() {
 
     console.log("CHAT.js didmount")
+    console.log(this.props)
     this.props.fetchUser();
-    this.props.fetchMessages();
+    this.props.fetchMessages('5c9da033fb6fc0465d4e6e64');
+    //later I will make this hard coded conversation id dynamic
+    //I will set conversation in the state using message selection in the sidebar
 
     if(this.props.messages.length > 0){
        this.setState({m: this.props.messages})
@@ -44,39 +55,25 @@ class Chat extends Component {
     }*/
   }
 
-
-  //addMessage = message =>
-    //this.setState(state => ({ messages: [...state.messages, message] }))
-
-  /* newMessage = (messageString, username) => {
-    console.log("LOGGING FROM SUBMITMESSAGE")
-    console.log(this.props)
-    let messages = this.state.messages;
-    //append new message to messages
-    let newMessagesObj = {username: username, timestamp: Number(Date.now()), text: messageString}
-    let newMessages = messages.push(newMessagesObj)
-    //update state
-    this.setState({messages: newMessages})
-    //this.ws.send(JSON.stringify(message))
-    //this.addMessage(message)
-  } */
-
   newMessage = (e) => {
-    console.log("input e = ")
-    console.log(e)
-    console.log(this.props.auth.username)
+    console.log("input e = ");
+    console.log(e);
+    console.log(this.props.auth.username);
     let messages = this.state.messages;
-    let newMessage = {username: this.props.auth.username, timestamp: Number(Date.now()), text: e};
-    messages.push(newMessage)
-    console.log("messages = ")
-    console.log(messages)
-    this.setState({messages: messages})
+    let newMessage = {sender: this.props.auth.username, timestamp: Number(Date.now()), text: e};
+    messages.push(newMessage);
+    console.log("messages = ");
+    console.log(messages);
+    this.setState({messages: messages});
+    this.props.postMessage(e, this.state.conversation.otherUser, this.state.conversation.id);
+    //for added security, I am sending a few values to the api and rebuilding the new message on the backend
+    //that keeps users from potentially creating fake conversations
   }
 
   sendMessage = (message) => {
         if(this.props){
           if(this.props.auth){
-            if (message.username===this.props.username){
+            if (message.sender===this.props.username){
               return <div key={message.index+"a"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
                 <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
                   paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
@@ -93,15 +90,6 @@ class Chat extends Component {
           </p>
         </div>
       }
-
-    /*renderMessage = (message) => {
-          return <div key={message.index+"b"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
-              <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
-                paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
-                {message.text}
-              </p>
-            </div>
-      }*/
 
   render() {
 

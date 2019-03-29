@@ -17,10 +17,10 @@ export const fetchUser = () => {
   }
 };
 
-export const fetchMessages = () => {
+export const fetchMessages = (id) => {
   console.log("fetchmessages ACTION")
   return function(dispatch){
-    axios.get(apiPath + '/messages',  {withCredentials: true})
+    axios.get(apiPath + '/messages',  {}, {params:{id: id}}, {withCredentials: true})
       .then(res => dispatch({ type: FETCH_MESSAGES, payload: res.data }))
   }
 };
@@ -39,9 +39,9 @@ export const createUser = (username, password) => {
   }
 };
 
-export const postMessage = (message) => {
+export const postMessage = (text, recipient, conversationid) => {
   return function(dispatch){
-    axios.post(apiPath + '/newmessage', {}, {params:{message: message}} )
+    axios.post(apiPath + '/newmessages', {}, {params:{text: text, recipient: recipient, conversationid: conversationid}} )
       .then(res => dispatch({ type: POST_MESSAGE, payload: res }) )
   }
 };
