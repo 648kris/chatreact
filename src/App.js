@@ -11,10 +11,7 @@ import CreateUser from './CreateUser/CreateUser';
 
 class App extends Component {
   componentDidMount() {
-    //console.log("APP.js didmount")
-    //console.log(this.props)
     this.props.fetchUser();
-    this.props.fetchMessages();
   }
 
   render() {

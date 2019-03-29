@@ -5,13 +5,7 @@ import MessagesDrawer from '../MessagesDrawer/MessagesDrawer';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-
-//const URL = 'ws://localhost:3030'
-
-//the websocket was working before but it stopped working
-//i tried going back to a previous version but it still didnt work
-//im wondering if it could have to do with a dependency update
-//i will fix the websocket to get the chat live again
+const URL = 'ws://localhost:3030'
 
 class Chat extends Component {
 
@@ -22,7 +16,7 @@ class Chat extends Component {
   //conversation values in the state will come from conversation selected in the sidebar
   //the hardcoded conversation value in state is a temporary placeholders
 
-  //ws = new WebSocket(URL)
+  ws = new WebSocket(URL)
 
   componentDidMount() {
 
@@ -37,7 +31,7 @@ class Chat extends Component {
        this.setState({m: this.props.messages})
     }
 
-  /*  this.ws.onopen = () => {
+    this.ws.onopen = () => {
       console.log('connected')
     }
 
@@ -51,7 +45,7 @@ class Chat extends Component {
       this.setState({
         ws: new WebSocket(URL),
       })
-    }*/
+    }
   }
 
   newMessage = (e) => {
@@ -84,7 +78,7 @@ class Chat extends Component {
               }
             }
           }
-        }
+        } //prop checks to avoid "cant read x of undefined" error
         return <div key={message.index+"b"} style={{ display:"block", textAlign:"right", padding:"6px"}}>
           <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", paddingLeft:"4px", paddingRight:"4px",
           paddingBottom:"4px", display:"inline"}}>
@@ -95,7 +89,6 @@ class Chat extends Component {
 
   render() {
 
-
     let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
       messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
 
@@ -103,26 +96,23 @@ class Chat extends Component {
       if(this.props.messages.messages){
         messagesDB = this.props.messages.messages;
       }
-    }
-
+    }//prop checks to avoid "cant read x of undefined" error
 
     return (
       <div>
       <MessagesDrawer/>
 
       <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-112px", padding:"4px", height:"100vh", backgroundColor:"white"}}>
-      {messagesDB.map((message, index) =>
-        <div>
-          {this.sendMessage(message)}
-        </div>
-      )}
-      {this.state.messages.map((message, index) =>
-        <div>
-        {this.sendMessage(message)}
-        </div>
-      )}
-
-
+        {messagesDB.map((message, index) =>
+          <div>
+            {this.sendMessage(message)}
+          </div>
+          )}
+        {this.state.messages.map((message, index) =>
+          <div>
+            {this.sendMessage(message)}
+          </div>
+          )}
       </div>
 
         <ChatInput
@@ -131,7 +121,6 @@ class Chat extends Component {
         />
 
       </div>
-
     )
   }
 }

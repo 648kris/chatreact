@@ -6,7 +6,6 @@ import {CREATE_USER} from './types';
 import {POST_MESSAGE} from './types';
 
 let apiPath = "http://localhost:5000";
-//if(process.env )
 console.log("env = " + process.env);
 
 export const fetchUser = () => {

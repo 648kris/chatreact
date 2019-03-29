@@ -19,18 +19,13 @@ const theme = {
 
   palette: {
    primary: {
-     // light: will be calculated from palette.primary.main,
-     main: '#ff4400',
-     // dark: will be calculated from palette.primary.main,
-     // contrastText: will be calculated to contrast with palette.primary.main
+     main: '#ff4400'
    },
    secondary: {
      light: '#0066ff',
      main: '#0044ff',
-     // dark: will be calculated from palette.secondary.main,
      contrastText: '#ffcc00',
    },
-   // error: will use the default color
  },
 
 }
@@ -38,7 +33,7 @@ const theme = {
 const styles = {
   main: {
     width: 'auto',
-    display: 'block', // Fix IE 11 issue.
+    display: 'block',
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
   },
@@ -56,7 +51,7 @@ const styles = {
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing.unit,
   },
   submit: {
