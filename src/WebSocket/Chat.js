@@ -17,8 +17,7 @@ class Chat extends Component {
 
   state = {
     conversation: {id: "5c9da033fb6fc0465d4e6e64", otherUser: "Kayla"},
-    messages: [ {sender:"me", recipient: "otherUser", timestamp: Number(Date.now()), text: "sendMessages placeholder"},
-    {sender:"me", recipient: "otherUser", timestamp: Number(Date.now()), text: "sendMessages placeholder2"} ]
+    messages: []
   }
   //conversation values in the state will come from conversation selected in the sidebar
   //the hardcoded conversation value in state is a temporary placeholders
@@ -56,6 +55,7 @@ class Chat extends Component {
   }
 
   newMessage = (e) => {
+    console.log(this.props.messages.messages)
     console.log("input e = ");
     console.log(e);
     console.log(this.props.auth.username);
@@ -73,13 +73,15 @@ class Chat extends Component {
   sendMessage = (message) => {
         if(this.props){
           if(this.props.auth){
-            if (message.sender===this.props.username){
-              return <div key={message.index+"a"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
-                <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
-                  paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
-                  {message.text}
-                </p>
-              </div>
+            if(this.props.auth.username){
+              if (message.sender===this.props.auth.username){
+                return <div key={message.index+"a"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
+                  <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
+                    paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
+                    {message.text}
+                  </p>
+                </div>
+              }
             }
           }
         }
@@ -97,7 +99,11 @@ class Chat extends Component {
     let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
       messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
 
-    if(this.props.messages.length > 0){messagesDB = this.props.messages; console.log(messagesDB[0].messages[0].text)};
+    if(this.props.messages){
+      if(this.props.messages.messages){
+        messagesDB = this.props.messages.messages;
+      }
+    }
 
 
     return (
@@ -105,16 +111,18 @@ class Chat extends Component {
       <MessagesDrawer/>
 
       <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-112px", padding:"4px", height:"100vh", backgroundColor:"white"}}>
-      {messagesDB[0].messages.map((message, index) =>
+      {messagesDB.map((message, index) =>
         <div>
           {this.sendMessage(message)}
-        </div>,
+        </div>
       )}
       {this.state.messages.map((message, index) =>
         <div>
         {this.sendMessage(message)}
-        </div>,
+        </div>
       )}
+
+
       </div>
 
         <ChatInput
