@@ -11,7 +11,8 @@ import * as actions from '../actions';
 class Chat extends Component {
 
   state = {
-    messages: [ {username:"Username", timestamp: Number(Date.now()), text: "sendMessages placeholder"} ]
+    messages: [ {username:"Username", timestamp: Number(Date.now()), text: "sendMessages placeholder"},
+    {username:"Username2", timestamp: Number(Date.now()), text: "sendMessages placeholder2"} ]
 }
 
   //ws = new WebSocket(URL)
@@ -61,40 +62,49 @@ class Chat extends Component {
   }
 
   testFunction = (e) => {
-    console.log("FUCKKKKKKKKKKKKKKK")
+    console.log("input e = ")
     console.log(e)
     console.log(this.props.auth.username)
+    let messages = this.state.messages;
+    let newMessage = {username: this.props.auth.username, timestamp: Number(Date.now()), text: e};
+    messages.push(newMessage)
+    console.log("messages = ")
+    console.log(messages)
+    this.setState({messages: messages})
   }
 
+  sendMessage = (message) => {
+        if(this.props){
+          if(this.props.auth){
+            if (message.username===this.props.username){
+              return <div key={message.index+"a"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
+                <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
+                  paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
+                  {message.text}
+                </p>
+              </div>
+            }
+          }
+        }
+        return <div key={message.index+"b"} style={{ display:"block", textAlign:"right", padding:"6px"}}>
+          <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", paddingLeft:"4px", paddingRight:"4px",
+          paddingBottom:"4px", display:"inline"}}>
+            {message.text}
+          </p>
+        </div>
+      }
 
+    /*renderMessage = (message) => {
+          return <div key={message.index+"b"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
+              <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
+                paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
+                {message.text}
+              </p>
+            </div>
+      }*/
 
   render() {
 
-    function sendMessage(message){
-      if (message.name==="Bob"){
-        return <div key={message.index+"a"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
-            <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
-              paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
-              {message.message}
-            </p>
-          </div>
-      }
-      return <div key={message.index+"b"} style={{ display:"block", textAlign:"right", padding:"6px"}}>
-        <p style={{backgroundColor:"#3f51b5", color:"white", borderRadius:"20px", paddingLeft:"4px", paddingRight:"4px",
-        paddingBottom:"4px", display:"inline"}}>
-          {message.message}
-        </p>
-      </div>
-    }
-
-    function renderMessage(message){
-        return <div key={message.index+"b"} style={{overflow:"auto", marginTop:"-16px", marginBottom:"-26px"}}>
-            <p style={{backgroundColor:"#e0e0e0", float:"left", borderRadius:"20px",
-              paddingLeft:"4px", paddingRight:"4px", paddingBottom:"4px"}}>
-              {message.text}
-            </p>
-          </div>
-    }
 
     let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
       messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
@@ -109,12 +119,12 @@ class Chat extends Component {
       <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-112px", padding:"4px", height:"100vh", backgroundColor:"white"}}>
       {messagesDB[0].messages.map((message, index) =>
         <div>
-          {message.text}
+          {this.sendMessage(message)}
         </div>,
       )}
       {this.state.messages.map((message, index) =>
         <div>
-        {message.text}
+        {this.sendMessage(message)}
         </div>,
       )}
       </div>
