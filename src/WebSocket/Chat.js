@@ -48,7 +48,7 @@ class Chat extends Component {
   //addMessage = message =>
     //this.setState(state => ({ messages: [...state.messages, message] }))
 
-  newMessage = (messageString, username) => {
+  /* newMessage = (messageString, username) => {
     console.log("LOGGING FROM SUBMITMESSAGE")
     console.log(this.props)
     let messages = this.state.messages;
@@ -59,9 +59,9 @@ class Chat extends Component {
     this.setState({messages: newMessages})
     //this.ws.send(JSON.stringify(message))
     //this.addMessage(message)
-  }
+  } */
 
-  testFunction = (e) => {
+  newMessage = (e) => {
     console.log("input e = ")
     console.log(e)
     console.log(this.props.auth.username)
@@ -131,7 +131,7 @@ class Chat extends Component {
 
         <ChatInput
           ws={this.ws}
-          onSubmitMessage={(e) => this.testFunction(e)}
+          onSubmitMessage={(e) => this.newMessage(e)}
         />
 
       </div>
