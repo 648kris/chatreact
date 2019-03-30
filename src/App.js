@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <div>
       <BrowserRouter>
-        <Route path="/" exact={true} component={Messages}/>
+        <Route path="/" exact={true} component={CreateUser}/>
       </BrowserRouter>
 
       <BrowserRouter>

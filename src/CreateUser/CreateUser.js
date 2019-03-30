@@ -51,7 +51,7 @@ const styles = {
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: '100%',
     marginTop: theme.spacing.unit,
   },
   submit: {
@@ -70,6 +70,7 @@ class SignIn extends Component{
     let username = this.state.username;
     let password = this.state.password;
     this.props.loginUser(username, password)
+    window.location.href = "/messages";
   }
 
   handleSubmit = () => {
@@ -93,6 +94,14 @@ class SignIn extends Component{
   }
 
   render(){
+
+    if(this.props){
+      if(this.props.auth){
+        if(this.props.auth.username){
+          window.location.href = "/messages";
+        }
+      }
+    }
 
   return (
     <main style={styles.main}>
@@ -141,6 +150,12 @@ class SignIn extends Component{
           </Button>
         </form>
       </Paper>
+      <a
+        href="/login"
+        style={{textAlign:"center", display:"block",
+        paddingTop:"10px", fontFamily:"Roboto"}}>
+        Already have an account? Login
+      </a>
     </main>
   );
 }
@@ -150,4 +165,9 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, actions)(SignIn);
+function mapStateToProps(state) {
+  return { auth: state.auth,
+    messages:state.messages };
+}
+
+export default connect(mapStateToProps, actions)(SignIn);
