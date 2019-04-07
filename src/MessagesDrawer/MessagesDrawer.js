@@ -10,6 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import LetterAvatar from '../Avatars/LetterAvatar';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -60,6 +62,10 @@ class ResponsiveDrawer extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  handleNameClick = (m) => {
+    this.props.selectUser(m.name);
+  };
+
   render() {
     const { classes, theme } = this.props;
 
@@ -67,7 +73,7 @@ class ResponsiveDrawer extends React.Component {
       <div>
         <List>
           {messages.map((message, index) => (
-            <ListItem button key={index}>
+            <ListItem button key={index} onClick={() => this.handleNameClick(message)}>
               <Avatar> <LetterAvatar letter={message.name[0]} color="#e91e63"/> </Avatar>
               <ListItemText primary={message.name} secondary={ (new Date(messages[0].timestamp)).toDateString()
                  + "      " + (new Date(messages[0].timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(messages[0].timestamp)).toLocaleTimeString().substring(8)} />
@@ -125,4 +131,6 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+let DrawerWithStyles = withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+
+export default connect(null, actions)(DrawerWithStyles);

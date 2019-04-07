@@ -10,7 +10,7 @@ const URL = 'ws://localhost:3030'
 class Chat extends Component {
 
   state = {
-    otherUser: "Kayla",
+    recipient: "",
     messages: []
   }
   //conversation values in the state will come from conversation selected in the sidebar
@@ -20,12 +20,11 @@ class Chat extends Component {
 
   componentDidMount() {
 
-    console.log("CHAT.js didmount")
-    console.log(this.props)
     this.props.fetchUser();
     this.props.fetchMessages(this.state.otherUser);
+    this.props.selectUser("Kayla");
+    //this.setState(recipient: this.props)
 
-    console.log("this.state.otherUser = "+this.state.otherUser)
     //later I will make this hard coded conversation id dynamic
     //I will set conversation in the state using message selection in the sidebar
 
@@ -51,15 +50,10 @@ class Chat extends Component {
   }
 
   newMessage = (e) => {
-    console.log(this.props.messages.messages)
-    console.log("input e = ");
-    console.log(e);
-    console.log(this.props.auth.username);
+    console.log(this.props);
     let messages = this.state.messages;
     let newMessage = {sender: this.props.auth.username, timestamp: Number(Date.now()), text: e};
     messages.push(newMessage);
-    console.log("messages = ");
-    console.log(messages);
     this.setState({messages: messages});
     this.props.postMessage(e, this.state.otherUser);
     //for added security, I am sending a few values to the api and rebuilding the new message on the backend
@@ -128,8 +122,11 @@ class Chat extends Component {
 }
 
 function mapStateToProps(state) {
-  return { auth: state.auth,
-    messages:state.messages };
+  return {
+    auth: state.auth,
+    messages: state.messages,
+    recipient: state.recipient
+  };
 }
 
 export default connect(mapStateToProps, actions)(Chat);

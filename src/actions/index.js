@@ -4,12 +4,19 @@ import {FETCH_MESSAGES} from './types';
 import {LOGIN_USER} from './types';
 import {CREATE_USER} from './types';
 import {POST_MESSAGE} from './types';
+import {SELECT_USER} from './types';
 
 let apiPath = "http://localhost:5000";
 console.log("env = " + process.env);
 
+export const selectUser = (recipient) => {
+  console.log("selectUser ACTION")
+  return function(dispatch){
+    dispatch({ type: SELECT_USER, payload: recipient})
+  }
+};
+
 export const fetchUser = () => {
-  console.log("fetchuser ACTION")
   return function(dispatch){
     axios.get(apiPath + '/currentuser',  {withCredentials: true})
       .then(res => dispatch({ type: FETCH_USER, payload: res.data }))
@@ -17,7 +24,6 @@ export const fetchUser = () => {
 };
 
 export const fetchMessages = (recipient) => {
-  console.log("fetchmessages ACTION")
   return function(dispatch){
     axios.get(apiPath + '/messages', {params:{recipient: recipient}, withCredentials: true})
       .then(res => dispatch({ type: FETCH_MESSAGES, payload: res.data }))

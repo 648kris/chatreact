@@ -3,3 +3,4 @@ export const FETCH_MESSAGES = 'fetch_messages';
 export const LOGIN_USER = 'login_user';
 export const CREATE_USER = 'create_user';
 export const POST_MESSAGE = 'post_message';
+export const SELECT_USER = 'select_user';
