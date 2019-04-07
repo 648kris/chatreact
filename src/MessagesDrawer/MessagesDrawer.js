@@ -64,6 +64,7 @@ class ResponsiveDrawer extends React.Component {
 
   handleNameClick = (m) => {
     this.props.selectUser(m.name);
+    this.props.fetchMessages(m.name);
   };
 
   render() {

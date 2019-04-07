@@ -44,7 +44,7 @@ export const createUser = (username, password) => {
   }
 };
 
-export const postMessage = (text, recipient, conversationid) => {
+export const postMessage = (text, recipient) => {
   return function(dispatch){
     axios.post(apiPath + '/newmessages', {}, {params:{text: text, recipient: recipient}, withCredentials: true} )
       .then(res => dispatch({ type: POST_MESSAGE, payload: res }) )

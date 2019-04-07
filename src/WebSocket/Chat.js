@@ -10,7 +10,7 @@ const URL = 'ws://localhost:3030'
 class Chat extends Component {
 
   state = {
-    recipient: "",
+    recipient: "Jacob",
     messages: []
   }
   //conversation values in the state will come from conversation selected in the sidebar
@@ -21,12 +21,7 @@ class Chat extends Component {
   componentDidMount() {
 
     this.props.fetchUser();
-    this.props.fetchMessages(this.state.otherUser);
-    this.props.selectUser("Kayla");
-    //this.setState(recipient: this.props)
-
-    //later I will make this hard coded conversation id dynamic
-    //I will set conversation in the state using message selection in the sidebar
+    this.props.fetchMessages(this.props.recipient);
 
     if(this.props.messages.length > 0){
        this.setState({m: this.props.messages})
@@ -55,7 +50,7 @@ class Chat extends Component {
     let newMessage = {sender: this.props.auth.username, timestamp: Number(Date.now()), text: e};
     messages.push(newMessage);
     this.setState({messages: messages});
-    this.props.postMessage(e, this.state.otherUser);
+    this.props.postMessage(e, this.props.recipient);
     //for added security, I am sending a few values to the api and rebuilding the new message on the backend
     //that keeps users from potentially creating fake conversations
   }
