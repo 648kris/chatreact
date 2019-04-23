@@ -45,6 +45,7 @@ class Chat extends Component {
   }
 
   newMessage = (e) => {
+    console.log("NEW MESSAGES POSTED FROM REACT CHAT.JS")
     console.log(this.props);
     let messages = this.state.messages;
     let newMessage = {sender: this.props.auth.username, timestamp: Number(Date.now()), text: e};
@@ -80,14 +81,21 @@ class Chat extends Component {
 
   render() {
 
-    let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
-      messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
+    //let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
+      //messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
+
+    let messagesDB = []
+
 
     if(this.props.messages){
       if(this.props.messages.messages){
         messagesDB = this.props.messages.messages;
+        console.log("messagesDB = ")
+        console.log(messagesDB)
       }
     }//prop checks to avoid "cant read x of undefined" error
+
+
 
     return (
       <div>

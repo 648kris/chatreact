@@ -23,9 +23,9 @@ export const fetchUser = () => {
   }
 };
 
-export const fetchMessages = (recipient) => {
+export const fetchMessages = (otherUser) => {
   return function(dispatch){
-    axios.get(apiPath + '/messages', {params:{recipient: recipient}, withCredentials: true})
+    axios.get(apiPath + '/messages', {params:{otherUser: otherUser}, withCredentials: true})
       .then(res => dispatch({ type: FETCH_MESSAGES, payload: res.data }))
   }
 };
@@ -45,6 +45,7 @@ export const createUser = (username, password) => {
 };
 
 export const postMessage = (text, recipient) => {
+  console.log("postMessage /newmessages")
   return function(dispatch){
     axios.post(apiPath + '/newmessages', {}, {params:{text: text, recipient: recipient}, withCredentials: true} )
       .then(res => dispatch({ type: POST_MESSAGE, payload: res }) )
