@@ -5,12 +5,11 @@ import {LOGIN_USER} from './types';
 import {CREATE_USER} from './types';
 import {POST_MESSAGE} from './types';
 import {SELECT_USER} from './types';
+import {FETCH_CONVERSATIONS} from './types';
 
 let apiPath = "http://localhost:5000";
-console.log("env = " + process.env);
 
 export const selectUser = (recipient) => {
-  console.log("selectUser ACTION")
   return function(dispatch){
     dispatch({ type: SELECT_USER, payload: recipient})
   }
@@ -30,6 +29,13 @@ export const fetchMessages = (otherUser) => {
   }
 };
 
+export const fetchConversations = () => {
+  return function(dispatch){
+    axios.get(apiPath + '/conversations', {withCredentials: true})
+      .then(res => dispatch({ type: FETCH_CONVERSATIONS, payload: res.data }))
+  }
+}
+
 export const loginUser = (username, password) => {
   return function(dispatch){
     axios.post(apiPath + '/login', {}, {params:{username: username, password: password}, withCredentials: true})
@@ -45,7 +51,6 @@ export const createUser = (username, password) => {
 };
 
 export const postMessage = (text, recipient) => {
-  console.log("postMessage /newmessages")
   return function(dispatch){
     axios.post(apiPath + '/newmessages', {}, {params:{text: text, recipient: recipient}, withCredentials: true} )
       .then(res => dispatch({ type: POST_MESSAGE, payload: res }) )

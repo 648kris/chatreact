@@ -12,6 +12,7 @@ import CreateUser from './CreateUser/CreateUser';
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
+    this.props.fetchConversations()
   }
 
   render() {

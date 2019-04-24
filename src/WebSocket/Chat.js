@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ChatInput from './ChatInput';
-import Avatar from '@material-ui/core/Avatar';
 import MessagesDrawer from '../MessagesDrawer/MessagesDrawer';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -45,8 +44,6 @@ class Chat extends Component {
   }
 
   newMessage = (e) => {
-    console.log("NEW MESSAGES POSTED FROM REACT CHAT.JS")
-    console.log(this.props);
     let messages = this.state.messages;
     let newMessage = {sender: this.props.auth.username, timestamp: Number(Date.now()), text: e};
     messages.push(newMessage);
@@ -81,10 +78,6 @@ class Chat extends Component {
 
   render() {
 
-    //let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
-      //messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
-      console.log("000000000000000000this.props.recipient = ")
-      console.log(this.props.recipient)
       let r = ""
       if(typeof this.props.recipient == "string"){r = this.props.recipient}
 
@@ -94,8 +87,6 @@ class Chat extends Component {
     if(this.props.messages){
       if(this.props.messages.messages){
         messagesDB = this.props.messages.messages;
-        console.log("messagesDB = ")
-        console.log(messagesDB)
       }
     }//prop checks to avoid "cant read x of undefined" error
 
@@ -140,7 +131,8 @@ function mapStateToProps(state) {
   return {
     auth: state.auth,
     messages: state.messages,
-    recipient: state.recipient
+    recipient: state.recipient,
+    conversations: state.conversations,
   };
 }
 

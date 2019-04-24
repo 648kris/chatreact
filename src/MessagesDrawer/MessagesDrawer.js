@@ -48,28 +48,91 @@ const styles = theme => ({
   },
 });
 
+
+
+
+
+
 let messages = [{name: 'Kristen', timestamp: Number(Date.now()), text: 'message preview', id:'rj39423iuf389234urh'},
   {name: 'Jacob', timestamp: Number(Date.now()), text: 'message preview', id:'93940infiu32932'},
   {name: 'Kayla', timestamp: Number(Date.now()), text: 'message preview', id:'32j8394qru329ha93ru'}];
 
-console.log((new Date(messages[0].timestamp)).toDateString())
 
 class ResponsiveDrawer extends React.Component {
+  componentDidMount() {
+    console.log("NEW RENDER")
+    this.props.fetchUser();
+    this.props.fetchConversations()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.conversations !== prevProps.conversations ) {
+      if(this.props.conversations[0]){
+        this.forceUpdate();
+
+        console.log(this.props.conversations)
+        this.setState({key:"valueeee"})
+      }
+      //this.setState({conversations: this.props.conversations})
+    }
+  }
+
   state = {
+    key:"value",
     mobileOpen: false,
-  };
+    conversations: [{"users":["Jacob","Kristen"],
+    "timestamp":1556037917300,
+    "messages":[{"sender":"Jacob","recipient":"Kristen","timestamp":1555983369726,"text":"test"}]
+ }]
+};
+
+  static getDerivedStateFromProps(props, state) {
+    console.log("running detderivedstatefromprops")
+    if(props.conversations[0]){
+      if(props.conversations.length !== state.conversations.length){
+        return {conversations: props.conversations}
+      }
+      console.log("AHHHHH")
+      }
+    }
+
+
+
+
+  getOtherUser = (usersArr) => {
+    let i = 0;
+    if(usersArr[0] == this.props.auth.username){i = 1};
+    return usersArr[i]
+    //return "fuck"
+  }
+
+
+  /*  [{name: 'Kristen', timestamp: Number(Date.now()), text: 'message preview', id:'rj39423iuf389234urh'},
+      {name: 'Jacob', timestamp: Number(Date.now()), text: 'message preview', id:'93940infiu32932'},
+      {name: 'Kayla', timestamp: Number(Date.now()), text: 'message preview', id:'32j8394qru329ha93ru'}]*/
+
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
   handleNameClick = (m) => {
-    this.props.selectUser(m.name);
-    this.props.fetchMessages(m.name);
+    this.props.selectUser(this.getOtherUser(m.users));
+    this.props.fetchMessages(this.getOtherUser(m.users));
   };
 
 
   render() {
+    let conversations = this.state.conversations;
+
+    if(this.props.conversations !== this.state.conversations){
+      if(this.props.conversations[0]){
+        this.setState({conversations: this.props.conversations})
+        conversations = this.props.conversations
+        console.log("BUTTS")
+      }
+    }
+
     const { classes, theme } = this.props;
 
     const drawer = (
@@ -80,11 +143,11 @@ class ResponsiveDrawer extends React.Component {
           </ListItem>
           <Divider />
 
-          {messages.map((message, index) => (
-            <ListItem button key={index} onClick={() => this.handleNameClick(message)}>
-              <Avatar> <LetterAvatar letter={message.name[0]} color="#e91e63"/> </Avatar>
-              <ListItemText primary={message.name} secondary={ (new Date(messages[0].timestamp)).toDateString()
-                 + "      " + (new Date(messages[0].timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(messages[0].timestamp)).toLocaleTimeString().substring(8)} />
+          {conversations.map((message, index) => (
+            <ListItem button onClick={() => this.handleNameClick(message)}>
+              <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color="#e91e63"/> </Avatar>
+              <ListItemText primary={this.getOtherUser(message.users)} secondary={ (new Date(message.timestamp)).toDateString()
+                 + "      " + (new Date(message.timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(message.timestamp)).toLocaleTimeString().substring(8)} />
             </ListItem>
           ))}
         </List>
@@ -141,4 +204,13 @@ ResponsiveDrawer.propTypes = {
 
 let DrawerWithStyles = withStyles(styles, { withTheme: true })(ResponsiveDrawer);
 
-export default connect(null, actions)(DrawerWithStyles);
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    messages: state.messages,
+    recipient: state.recipient,
+    conversations: state.conversations,
+  };
+}
+
+export default connect(mapStateToProps, actions)(DrawerWithStyles);
