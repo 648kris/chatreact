@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import LetterAvatar from '../Avatars/LetterAvatar';
+import StartConvo from './StartConvo'
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
@@ -67,12 +68,18 @@ class ResponsiveDrawer extends React.Component {
     this.props.fetchMessages(m.name);
   };
 
+
   render() {
     const { classes, theme } = this.props;
 
     const drawer = (
       <div>
         <List>
+          <ListItem button key={"new"}>
+            <div style={{margin:"auto"}}><StartConvo/></div>
+          </ListItem>
+          <Divider />
+
           {messages.map((message, index) => (
             <ListItem button key={index} onClick={() => this.handleNameClick(message)}>
               <Avatar> <LetterAvatar letter={message.name[0]} color="#e91e63"/> </Avatar>

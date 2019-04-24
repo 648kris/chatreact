@@ -83,6 +83,10 @@ class Chat extends Component {
 
     //let messagesDB = [{sender:"placeholder", timestamp: Number(Date.now()),
       //messages: [{text:"loading messages from database...", timestamp:Number(Date.now())}] }];
+      console.log("000000000000000000this.props.recipient = ")
+      console.log(this.props.recipient)
+      let r = ""
+      if(typeof this.props.recipient == "string"){r = this.props.recipient}
 
     let messagesDB = []
 
@@ -102,6 +106,14 @@ class Chat extends Component {
       <MessagesDrawer/>
 
       <div style={{maxWidth: "800px", marginLeft:"240px", marginTop:"-112px", padding:"4px", height:"100vh", backgroundColor:"white"}}>
+
+      <h2 style={{width: "100%", margin:"auto", textAlign:"center",
+      color:"white", backgroundColor: '#e91e63' }}>
+        {r}
+      </h2>
+
+      <div style={{padding:"6px"}}/>
+
         {messagesDB.map((message, index) =>
           <div>
             {this.sendMessage(message)}
