@@ -10,7 +10,9 @@ class Chat extends Component {
 
   state = {
     recipient: "Jacob",
-    messages: []
+    messagesR: [],
+    messages: [],
+    ws: "",
   }
   //conversation values in the state will come from conversation selected in the sidebar
   //the hardcoded conversation value in state is a temporary placeholders
@@ -18,7 +20,7 @@ class Chat extends Component {
   ws = new WebSocket(URL)
 
   componentDidMount() {
-
+console.log("new CHAT MOUNT_________")
     this.props.fetchUser();
     this.props.fetchMessages(this.props.recipient);
 
@@ -43,9 +45,23 @@ class Chat extends Component {
     }
   }
 
+//messagesDB = this.props.messages.messages;
+  componentDidUpdate(prevProps) {
+    if (this.props.messages !== prevProps.messages ) {
+      if(this.props.messages.messages){
+        this.setState({messages: this.props.messages.messages})
+      }
+    }
+    if (this.props.recipient !== prevProps.recipient ) {
+      if(typeof this.props.recipient == "string"){
+        this.setState({recipient: this.props.recipient})
+      }
+    }
+  }
+
   newMessage = (e) => {
     let messages = this.state.messages;
-    let newMessage = {sender: this.props.auth.username, timestamp: Number(Date.now()), text: e};
+    let newMessage = {sender: this.props.auth.username, recipient:this.props.recipient, timestamp: Number(Date.now()), text: e};
     messages.push(newMessage);
     this.setState({messages: messages});
     this.props.postMessage(e, this.props.recipient);
@@ -78,8 +94,18 @@ class Chat extends Component {
 
   render() {
 
-      let r = ""
-      if(typeof this.props.recipient == "string"){r = this.props.recipient}
+    let r = "";
+    let messagesR = [];
+
+    function containsR(m) {
+      //return arr.indexOf(r) > -1
+      return m.recipient === r;
+    }
+
+    if(typeof this.props.recipient == "string"){
+      r = this.props.recipient;
+    }
+
 
     let messagesDB = []
 
@@ -105,16 +131,12 @@ class Chat extends Component {
 
       <div style={{padding:"6px"}}/>
 
-        {messagesDB.map((message, index) =>
+        {this.state.messages.filter(containsR).map((message, index) =>
           <div>
             {this.sendMessage(message)}
           </div>
           )}
-        {this.state.messages.map((message, index) =>
-          <div>
-            {this.sendMessage(message)}
-          </div>
-          )}
+
       </div>
 
         <ChatInput

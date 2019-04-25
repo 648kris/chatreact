@@ -10,7 +10,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import LetterAvatar from '../Avatars/LetterAvatar';
-import StartConvo from './StartConvo'
+//import StartConvo from './StartConvo';
+
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
@@ -49,18 +58,8 @@ const styles = theme => ({
 });
 
 
-
-
-
-
-let messages = [{name: 'Kristen', timestamp: Number(Date.now()), text: 'message preview', id:'rj39423iuf389234urh'},
-  {name: 'Jacob', timestamp: Number(Date.now()), text: 'message preview', id:'93940infiu32932'},
-  {name: 'Kayla', timestamp: Number(Date.now()), text: 'message preview', id:'32j8394qru329ha93ru'}];
-
-
 class ResponsiveDrawer extends React.Component {
   componentDidMount() {
-    console.log("NEW RENDER")
     this.props.fetchUser();
     this.props.fetchConversations()
   }
@@ -68,70 +67,72 @@ class ResponsiveDrawer extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.conversations !== prevProps.conversations ) {
       if(this.props.conversations[0]){
-        this.forceUpdate();
-
-        console.log(this.props.conversations)
-        this.setState({key:"valueeee"})
+        this.setState({conversationsDB: this.props.conversations})
       }
-      //this.setState({conversations: this.props.conversations})
     }
   }
 
   state = {
-    key:"value",
+    open: false,
+    username: "",
+    text: "",//end dialog box state
     mobileOpen: false,
-    conversations: [{"users":["Jacob","Kristen"],
-    "timestamp":1556037917300,
-    "messages":[{"sender":"Jacob","recipient":"Kristen","timestamp":1555983369726,"text":"test"}]
- }]
+    conversationsDB: [],
+    conversations: [],
+    selectUser: "",
 };
 
-  static getDerivedStateFromProps(props, state) {
-    console.log("running detderivedstatefromprops")
-    if(props.conversations[0]){
-      if(props.conversations.length !== state.conversations.length){
-        return {conversations: props.conversations}
-      }
-      console.log("AHHHHH")
-      }
-    }
+handleClickOpen = () => {
+  this.setState({ open: true });
+};
 
+handleClose = () => {
+  this.setState({ open: false });
+};
 
+handleSubmit = () => {
+  let text = this.state.text;
+  let recipient = this.state.username;
+  let currentUser = this.props.auth.username;
 
+  let newConversation = {"users":[currentUser, recipient],
+  "timestamp": Number(Date.now()),
+  "messages":[{"sender":currentUser,"recipient":recipient,"timestamp":Number(Date.now()),"text":text}]
+}
+  let c = this.state.conversations;
+  let newC = c.unshift(newConversation);
+  this.setState({ conversations: c });
+  this.setState({ open: false });
+  this.props.postMessage(text, recipient)
+};
+
+handleUsernameChange = e => {
+  this.setState({ username: e.target.value })
+}
+
+handleTextChange = e => {
+  this.setState({ text: e.target.value })
+}//end dialog box functions
 
   getOtherUser = (usersArr) => {
     let i = 0;
     if(usersArr[0] == this.props.auth.username){i = 1};
     return usersArr[i]
-    //return "fuck"
   }
-
-
-  /*  [{name: 'Kristen', timestamp: Number(Date.now()), text: 'message preview', id:'rj39423iuf389234urh'},
-      {name: 'Jacob', timestamp: Number(Date.now()), text: 'message preview', id:'93940infiu32932'},
-      {name: 'Kayla', timestamp: Number(Date.now()), text: 'message preview', id:'32j8394qru329ha93ru'}]*/
-
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
   handleNameClick = (m) => {
-    this.props.selectUser(this.getOtherUser(m.users));
-    this.props.fetchMessages(this.getOtherUser(m.users));
+    let otherUser = this.getOtherUser(m.users);
+    this.setState({selectUser: otherUser} )
+    this.props.selectUser(otherUser);
+    this.props.fetchMessages(otherUser);
   };
 
 
   render() {
-    let conversations = this.state.conversations;
-
-    if(this.props.conversations !== this.state.conversations){
-      if(this.props.conversations[0]){
-        this.setState({conversations: this.props.conversations})
-        conversations = this.props.conversations
-        console.log("BUTTS")
-      }
-    }
 
     const { classes, theme } = this.props;
 
@@ -139,19 +140,76 @@ class ResponsiveDrawer extends React.Component {
       <div>
         <List>
           <ListItem button key={"new"}>
-            <div style={{margin:"auto"}}><StartConvo/></div>
+            <div style={{margin:"auto"}}>
+
+
+
+            <div>
+              <p style={{color:"#3f51b5"}} color="primary" onClick={this.handleClickOpen}>
+                New Conversation
+              </p>
+              <Dialog
+                open={this.state.open}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">To:</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="recipient"
+                    label="username"
+                    fullWidth
+                    onChange={e => this.handleUsernameChange(e)}
+                  />
+                  </DialogContent>
+
+                  <DialogTitle id="form-dialog-title">Message:</DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="messageText"
+                      label="message"
+                      fullWidth
+                      onChange={e => this.handleTextChange(e)}
+                    />
+                </DialogContent>
+
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={this.handleSubmit} color="primary">
+                    Send
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </div>
+
+
+            </div>
           </ListItem>
           <Divider />
 
-          {conversations.map((message, index) => (
+          {this.state.conversations.map((message, index) => (
             <ListItem button onClick={() => this.handleNameClick(message)}>
               <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color="#e91e63"/> </Avatar>
               <ListItemText primary={this.getOtherUser(message.users)} secondary={ (new Date(message.timestamp)).toDateString()
                  + "      " + (new Date(message.timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(message.timestamp)).toLocaleTimeString().substring(8)} />
             </ListItem>
           ))}
+
+          {this.state.conversationsDB.map((message, index) => (
+            <ListItem button onClick={() => this.handleNameClick(message)}>
+              <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color="#e91e63"/> </Avatar>
+              <ListItemText primary={this.getOtherUser(message.users)} secondary={ (new Date(message.timestamp)).toDateString()
+                 + "      " + (new Date(message.timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(message.timestamp)).toLocaleTimeString().substring(8)} />
+            </ListItem>
+          ))}
+
         </List>
-        <Divider />
 
       </div>
     );
