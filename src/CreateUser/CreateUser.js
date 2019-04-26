@@ -109,7 +109,7 @@ class SignIn extends Component{
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Create New Account
+          Login or Create Account
         </Typography>
         <form
           style={styles.form}
@@ -148,12 +148,7 @@ class SignIn extends Component{
           </Button>
         </form>
       </Paper>
-      <a
-        href="/login"
-        style={{textAlign:"center", display:"block",
-        paddingTop:"10px", fontFamily:"Roboto"}}>
-        Already have an account? Login
-      </a>
+
     </main>
   );
 }

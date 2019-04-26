@@ -7,7 +7,10 @@ import {POST_MESSAGE} from './types';
 import {SELECT_USER} from './types';
 import {FETCH_CONVERSATIONS} from './types';
 
-let apiPath = "http://localhost:5000";
+
+let apiPath = "https://chatappkmapi.herokuapp.com";
+//let apiPath = "http://localhost:5000";
+
 
 export const selectUser = (recipient) => {
   return function(dispatch){

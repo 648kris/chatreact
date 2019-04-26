@@ -70,6 +70,7 @@ class ResponsiveDrawer extends React.Component {
         this.setState({conversationsDB: this.props.conversations})
       }
     }
+    if (!this.props.auth.username) { window.location.href="/"}
   }
 
   state = {
@@ -77,7 +78,11 @@ class ResponsiveDrawer extends React.Component {
     username: "",
     text: "",//end dialog box state
     mobileOpen: false,
-    conversationsDB: [],
+    conversationsDB: [{
+      users: ["", ""],
+      messages: [{sender: "", recipient: "", timestamp: 1556290536688, text: ""}],
+      timestamp: ""
+      }],
     conversations: [],
     selectUser: "",
 };
@@ -116,8 +121,15 @@ handleTextChange = e => {
 
   getOtherUser = (usersArr) => {
     let i = 0;
-    if(usersArr[0] == this.props.auth.username){i = 1};
+    if(usersArr[0] === this.props.auth.username){i = 1};
     return usersArr[i]
+  }
+
+  getAvatarColor = (usersArr) => {
+    //let i = 0;
+    //if(usersArr[0] === this.props.auth.username){i = 1};
+    if(usersArr[0] === ""){return "white"}
+    return "#e91e63"
   }
 
   handleDrawerToggle = () => {
@@ -131,6 +143,33 @@ handleTextChange = e => {
     this.props.fetchMessages(otherUser);
   };
 
+  getDateString = (ts) => {
+    let dateString = new Date(ts).toDateString();
+    if(dateString === 'Invalid Date'){
+      return ""
+    }
+    else {return dateString}
+  }
+
+  getTimeString = (ts) => {
+    let dateString = new Date(ts).toDateString();
+    let timeString = new Date(ts).toLocaleTimeString().substring(0, 5);
+    if(dateString === 'Invalid Date'){
+      return ""
+    }
+    return timeString
+  }
+
+  getTimeStringCont = (ts) => {
+    let dateString = new Date(ts).toDateString();
+    let timeStringCont = new Date(ts).toLocaleTimeString().substring(8)
+    if(dateString === 'Invalid Date'){
+      return ""
+    }
+    return timeStringCont
+  }
+
+
 
   render() {
 
@@ -141,8 +180,6 @@ handleTextChange = e => {
         <List>
           <ListItem button key={"new"}>
             <div style={{margin:"auto"}}>
-
-
 
             <div>
               <p style={{color:"#3f51b5"}} color="primary" onClick={this.handleClickOpen}>
@@ -188,14 +225,13 @@ handleTextChange = e => {
               </Dialog>
             </div>
 
-
             </div>
           </ListItem>
           <Divider />
 
           {this.state.conversations.map((message, index) => (
             <ListItem button onClick={() => this.handleNameClick(message)}>
-              <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color="#e91e63"/> </Avatar>
+              <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color={this.getAvatarColor(message.users)}/> </Avatar>
               <ListItemText primary={this.getOtherUser(message.users)} secondary={ (new Date(message.timestamp)).toDateString()
                  + "      " + (new Date(message.timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(message.timestamp)).toLocaleTimeString().substring(8)} />
             </ListItem>
@@ -203,9 +239,9 @@ handleTextChange = e => {
 
           {this.state.conversationsDB.map((message, index) => (
             <ListItem button onClick={() => this.handleNameClick(message)}>
-              <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color="#e91e63"/> </Avatar>
-              <ListItemText primary={this.getOtherUser(message.users)} secondary={ (new Date(message.timestamp)).toDateString()
-                 + "      " + (new Date(message.timestamp)).toLocaleTimeString().substring(0, 5) + (new Date(message.timestamp)).toLocaleTimeString().substring(8)} />
+              <Avatar> <LetterAvatar letter={this.getOtherUser(message.users)[0]} color={this.getAvatarColor(message.users)}/> </Avatar>
+              <ListItemText primary={this.getOtherUser(message.users)} secondary={ this.getDateString(message.timestamp)
+                 + "      " + this.getTimeString(message.timestamp) + this.getTimeStringCont(message.timestamp)} />
             </ListItem>
           ))}
 
